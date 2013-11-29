@@ -38,7 +38,8 @@ describe Airport do
    end
 
     it 'a plane cannot land if the airport is full' do
-    
+      land_planes
+      expect( lambda{airport.authorize(plane,:land)}).to raise_error(RuntimeError)
     end
     
     # Include a weather condition using a module.
@@ -94,4 +95,9 @@ end
 describe "The gand finale (last spec)" do
   it 'all planes can land and all planes can take off' do
   end
+end
+
+
+def land_planes
+  10.times {airport.authorize(plane,:land)}
 end

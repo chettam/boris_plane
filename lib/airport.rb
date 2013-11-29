@@ -13,6 +13,7 @@ class Airport
 	end
 
 	def land(plane)
+		raise "the airport is full" if capacity ==0
 		plane.land! 
 		@capacity -= 1
 	end
