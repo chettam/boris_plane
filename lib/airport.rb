@@ -1,12 +1,7 @@
 class Airport
 
-	def authorize_landing(plane)
-		plane.land!
+	def authorize(plane,action)
+		plane.land! if action == :land
+		plane.take_off! if action == :take_off
 	end
-
-	def autorize_take_off(plane)
-		plane.take_off!
-	end
-
-
 end
