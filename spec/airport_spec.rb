@@ -14,11 +14,12 @@ describe Airport do
   context 'taking off and landing' do
     it 'a plane can land' do
       airport.authorize_landing(plane)
-      expect(plane.status).to eq(:flying)      
+      expect(plane.status).to eq(:landed)      
     end
     
-   xit 'a plane can take off' do
+   it 'a plane can take off' do
       airport.autorize_take_off(plane)
+      expect(plane.status).to eq(:flying)  
     end
   end
   
