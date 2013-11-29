@@ -1,25 +1,32 @@
+require_relative 'weather'
+
 class Airport
 
-	attr_accessor :capacity
+	include Weather
+
+	attr_accessor :capacity, :planes
 
 	def initialize(capacity = 10)
+		@planes =[]
 		@capacity = capacity
 	end
 
 	def authorize(plane,action)
 
 		land(plane) if action == :land
+		
 		take_off(plane) if action == :take_off
 	end
 
 	def land(plane)
-		raise "the airport is full" if capacity ==0
 		plane.land! 
-		@capacity -= 1
+		@planes << plane  unless @planes.length == capacity || current_weather == :stormy
 	end
 
 	def take_off(plane)
-		plane.take_off!
-		@capacity += 1
+		unless current_weather == :stormy
+			plane.take_off!
+			@planes.delete(plane)
+		end
 	end
 end
