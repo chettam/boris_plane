@@ -19,8 +19,10 @@ class Airport
 	end
 
 	def land(plane)
-		plane.land! 
-		@planes << plane  unless @planes.length == capacity || current_weather == :stormy
+		 unless @planes.length == capacity || current_weather == :stormy
+		 	plane.land! 
+			@planes << plane 
+		end
 	end
 
 	def take_off(plane)

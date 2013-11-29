@@ -55,9 +55,12 @@ describe Airport do
     # the plane can not land, and must not be in the airport
     context 'weather conditions' do
       it 'a plane cannot take off when there is a storm brewing' do
+      airport.stub(:current_weather){:sunny}
       airport.authorize(plane,:land)  
       airport.stub(:current_weather){:stormy}
       expect(airport.planes.length).to eq(1)
+      airport.authorize(plane,:take_off)
+     expect(airport.planes.length).to eq(1)
 
      end
       
@@ -107,8 +110,9 @@ describe "The grand finale (last spec)" do
   it 'all planes can land and all planes can take off' do
     airport.capacity = 6
     land_planes(6)
-    expect(airport.planes.select{|plane| plane.status = :landed}.length).to eq(6)
-
+    expect(airport.planes.select{|plane| plane.status = :landed}.length).to be_within(3).of(3)
+    take_off_planes(6)
+    expect(airport.planes.select{|plane| plane.status = :flying}.length).to be_within(3).of(3)
   end
 end
 
@@ -117,6 +121,17 @@ def land_planes(instance)
  instance.times do 
     set_weather_sunny
     airport.authorize(Plane.new,:land)
+  end
+end
+def land_planes_weather(instance)
+ instance.times do 
+    airport.authorize(Plane.new,:land)
+  end
+end
+
+def take_off_planes(instance)
+  instance.times do 
+    airport.authorize(Plane.new,:tae_off)
   end
 end
 
