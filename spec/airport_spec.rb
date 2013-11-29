@@ -22,9 +22,23 @@ describe Airport do
       expect(plane.status).to eq(:flying)  
     end
   end
-  
+
+  context 'has' do 
+
+    it 'a default capacity of 10 planes' do
+        expect airport.capacity
+    end
+  end
   context 'traffic control' do
+    it 'the capacity of the aiport should increase and decrease  when a plane take off or land' do
+     airport.authorize(plane,:land)
+     expect(airport.capacity).to eq(9)
+     airport.authorize(plane,:take_off)
+     expect(airport.capacity).to eq(10)
+   end
+
     it 'a plane cannot land if the airport is full' do
+    
     end
     
     # Include a weather condition using a module.
