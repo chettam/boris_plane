@@ -15,13 +15,13 @@ describe Airport do
   context 'taking off and landing' do
     it 'a plane can land' do
       set_weather_sunny
-      airport.authorize(plane,:land)
+      airport.land(plane)
       expect(plane.status).to eq(:landed)      
     end
     
    it 'a plane can take off' do
      set_weather_sunny
-      airport.authorize(plane,:take_off)
+      airport.take_off(plane)
       expect(plane.status).to eq(:flying)  
     end
   end
@@ -35,9 +35,9 @@ describe Airport do
   context 'traffic control' do
     it 'the usage of the aiport should increase and decrease  when a plane take off or land' do
      set_weather_sunny
-     airport.authorize(plane,:land)
+     airport.land(plane)
      expect(airport.planes.length).to eq(1)
-     airport.authorize(plane,:take_off)
+     airport.take_off(plane)
      expect(airport.planes.length).to eq(0)
    end
 
@@ -56,10 +56,10 @@ describe Airport do
     context 'weather conditions' do
       it 'a plane cannot take off when there is a storm brewing' do
       airport.stub(:current_weather){:sunny}
-      airport.authorize(plane,:land)  
+      airport.land(plane)
       airport.stub(:current_weather){:stormy}
       expect(airport.planes.length).to eq(1)
-      airport.authorize(plane,:take_off)
+      airport.take_off(plane)
      expect(airport.planes.length).to eq(1)
 
      end
@@ -82,7 +82,7 @@ describe Plane do
   let(:plane) { Plane.new }
   
   it 'has a flying status when created' do
-    expect(plane.status).to eq(:landed)
+    expect(plane.status).to eq(:flying)
   end
   
   it 'has a flying status when in the air' do
@@ -92,6 +92,7 @@ describe Plane do
   
   it 'can take off' do
     plane.take_off!
+    expect(plane.status).to eq(:flying)
   end
   
   it 'changes its status to flying after taking off' do
@@ -120,18 +121,18 @@ end
 def land_planes(instance)
  instance.times do 
     set_weather_sunny
-    airport.authorize(Plane.new,:land)
+    airport.land(Plane.new)
   end
 end
 def land_planes_weather(instance)
  instance.times do 
-    airport.authorize(Plane.new,:land)
+    airport.land(Plane.new)
   end
 end
 
 def take_off_planes(instance)
   instance.times do 
-    airport.authorize(Plane.new,:tae_off)
+    airport.take_off(Plane.new)
   end
 end
 

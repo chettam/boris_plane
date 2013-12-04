@@ -11,13 +11,6 @@ class Airport
 		@capacity = capacity
 	end
 
-	def authorize(plane,action)
-
-		land(plane) if action == :land
-		
-		take_off(plane) if action == :take_off
-	end
-
 	def land(plane)
 		 unless @planes.length == capacity || current_weather == :stormy
 		 	plane.land! 
